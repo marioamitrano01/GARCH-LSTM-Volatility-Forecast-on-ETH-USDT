@@ -130,7 +130,6 @@ def plot_residual_diagnostics_plotly(std_resid: np.ndarray):
         subplot_titles=("Q-Q Plot of Std. Residuals", "Histogram of Std. Residuals")
     )
 
-    # --- Left subplot: QQ plot ---
     # 1) QQ points
     fig.add_trace(
         go.Scatter(
@@ -153,7 +152,6 @@ def plot_residual_diagnostics_plotly(std_resid: np.ndarray):
         row=1, col=1
     )
 
-    # --- Right subplot: histogram + PDF overlay ---
     # 1) Plotly histogram (normalized)
     fig.add_trace(
         go.Histogram(
@@ -268,7 +266,6 @@ def main():
     print(f"LM stat = {arch_test_resid[0]:.3f}, LM p-value = {arch_test_resid[1]:.3f}")
     print(f"F stat  = {arch_test_resid[2]:.3f}, F p-value  = {arch_test_resid[3]:.3f}")
 
-    # -- Plotly Q-Q + Histogram of Standardized Residuals
     plot_residual_diagnostics_plotly(std_resid.values)
 
     # GARCH Forecast
@@ -292,7 +289,7 @@ def main():
     point_forecast_prices = point_forecast_prices[1:]
 
     # LSTM VOLATILITY FORECAST 
-    hist_vol = res.conditional_volatility.dropna()  # type: ignore
+    hist_vol = res.conditional_volatility.dropna()  
     vol_data = hist_vol.values.reshape(-1, 1)
     scaler = MinMaxScaler(feature_range=(0, 1))
     vol_scaled = scaler.fit_transform(vol_data)
